@@ -1,10 +1,11 @@
 package ru.sber.anotherservices
 
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+
+@Component
 class FourthService {
     override fun toString(): String {
-        return "I am anotherFourthService"
+        return "I am fourthService"
     }
 }
