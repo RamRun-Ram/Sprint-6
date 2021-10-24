@@ -2,7 +2,6 @@ package ru.sber.services
 
 import org.springframework.beans.factory.DisposableBean
 import org.springframework.beans.factory.InitializingBean
-import org.springframework.beans.factory.config.BeanPostProcessor
 import org.springframework.stereotype.Component
 import javax.annotation.PostConstruct
 
@@ -19,7 +18,7 @@ class CallbackBean : InitializingBean, DisposableBean {
     }
 }
 
-class CombinedBean : BeanPostProcessor, InitializingBean {
+class CombinedBean : InitializingBean {
     var postProcessBeforeInitializationOrderMessage: String? = null
     var postConstructOrderMessage: String? = null
     var customInitOrderMessage: String? = null
@@ -38,17 +37,6 @@ class CombinedBean : BeanPostProcessor, InitializingBean {
     fun postConstruct() {
         postConstructOrderMessage = "postConstruct() is called"
     }
-
-    override fun postProcessBeforeInitialization(bean: Any, beanName: String): Any? {
-        postProcessBeforeInitializationOrderMessage = "postProcessBeforeInitialization() is called"
-        return super.postProcessBeforeInitialization(bean, beanName)
-    }
-
-    override fun postProcessAfterInitialization(bean: Any, beanName: String): Any? {
-        postProcessAfterInitializationOrderMessage = "postProcessAfterInitialization() is called"
-        return super.postProcessAfterInitialization(bean, beanName)
-    }
-
 }
 
 @Component
