@@ -20,9 +20,9 @@ class MvcController {
 
     @GetMapping("/list")
     fun getAllAddress(
-            @RequestParam(required = false) name: String?,
-            @RequestParam(required = false) address: String?,
-            model: Model,
+        @RequestParam(required = false) name: String?,
+        @RequestParam(required = false) address: String?,
+        model: Model,
     ): String {
         model.addAttribute("allAddress", addressBookService.getAllAddress())
         return "list"
@@ -50,12 +50,12 @@ class MvcController {
     @PostMapping("/{id}/edit")
     fun postAddressEdit(@PathVariable id: Int, @ModelAttribute("address") addressPerson: AddressPerson): String {
         addressBookService.updateAddress(id, addressPerson)
-        return "result"
+        return "list"
     }
 
     @GetMapping("/{id}/delete")
     fun removeAddress(@PathVariable id: Int): String {
         addressBookService.removeAddress(id)
-        return "result"
+        return "list"
     }
 }

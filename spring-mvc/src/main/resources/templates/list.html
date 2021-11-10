@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>All AddressPerson</title>
 </head>
 <body>
-
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+    </tr>
+    <tr th:each="addressPerson : ${addressPerson}">
+        <td th:text="${addressPerson.key}"></td>
+        <td th:text="${addressPerson.value.name}"></td>
+        <td th:text="${addressPerson.value.address}"></td>
+    </tr>
+</table>
 </body>
 </html>
