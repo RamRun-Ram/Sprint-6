@@ -8,10 +8,13 @@
 <a th:href="@{'/app/list'}">HOME</a>
 <form method="post">
     <p> Ведите новые данные для записи </p>
-    <input name="name" placeholder="Type name here" th:value="${addressPerson.name}"/>
+    <input name="name" placeholder="Type name here" th:value="${addressBook.name}"/>
     <p>
     </p>
-    <input name="address" placeholder="Type address here" th:value="${addressPerson.address}"/>
+    <input name="address" placeholder="Type address here" th:value="${addressBook.address}"/>
+    <p>
+    </p>
+    <input name="telephone" placeholder="Type telephone here" th:value="${addressBook.telephone}"/>
     <p>
         <button>Отправить</button>
     </p>

@@ -1,32 +1,14 @@
 package com.springweb.mvc.service
 
 
-import com.springweb.mvc.model.AddressPerson
-import org.springframework.stereotype.Service
-import java.util.concurrent.ConcurrentHashMap
+import com.springweb.mvc.model.entity.AddressBookModel
+import java.util.*
 
-
-@Service
-class AddressBookService {
-    private val addressBook = ConcurrentHashMap<Int, AddressPerson>()
-
-    fun addAddress(addressPerson: AddressPerson) {
-        addressBook[addressBook.size] = addressPerson
-    }
-
-    fun getAddress(id: Int): AddressPerson? {
-        return addressBook[id]
-    }
-
-    fun getAllAddress(): ConcurrentHashMap<Int, AddressPerson> {
-        return addressBook
-    }
-
-    fun removeAddress(id: Int): AddressPerson? {
-        return addressBook.remove(id)
-    }
-
-    fun updateAddress(id: Int, addressPerson: AddressPerson) {
-        addressBook[id] = addressPerson
-    }
+interface AddressBookService {
+    fun allAddress(): List<AddressBookModel?>?
+    fun findOne(id: Int?): Optional<AddressBookModel?>?
+    fun deleteAddress(id: Int?)
+    fun isExist(id: Int?): Boolean
+    fun editAddress(addressBookModel: AddressBookModel?): AddressBookModel?
+    fun addNewEntry(addressBookModel: AddressBookModel?): AddressBookModel?
 }

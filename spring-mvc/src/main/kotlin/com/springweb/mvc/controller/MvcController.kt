@@ -1,8 +1,8 @@
 package com.springweb.mvc.controller
 
-import com.springweb.mvc.model.AddressPerson
+import com.springweb.mvc.model.entity.AddressBookModel
 import com.springweb.mvc.service.AddressBookService
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
@@ -10,52 +10,59 @@ import org.springframework.web.bind.annotation.*
 @Controller
 @RequestMapping("/app")
 class MvcController {
-    @Autowired
-    private lateinit var addressBookService: AddressBookService
-
-    @GetMapping("/add")
-    fun getAddress(): String {
-        return "add"
-    }
-
+    private val addressBookService: AddressBookService? = null
     @GetMapping("/list")
-    fun getAllAddress(
-        @RequestParam(required = false) name: String?,
-        @RequestParam(required = false) address: String?,
-        model: Model,
-    ): String {
-        model.addAttribute("allAddress", addressBookService.getAllAddress())
-        return "list"
-    }
-
-    @PostMapping("/add")
-    fun addAddress(@ModelAttribute("address") addressPerson: AddressPerson, model: Model): String {
-        addressBookService.addAddress(addressPerson)
+    fun getAddresses(model: Model): String {
+        model.addAttribute("addresses", addressBookService!!.allAddress())
         return "list"
     }
 
     @GetMapping("/{id}/view")
-    fun getAddressId(@PathVariable id: Int, model: Model): String {
-        model.addAttribute("address", addressBookService.getAddress(id))
+    fun getAddress(@PathVariable id: Int?, model: Model): String {
+        val addressBookModel = addressBookService!!.findOne(id)
+        if (addressBookModel==null) {
+            return "not_found"
+        }
+        model.addAttribute("addressBook", addressBookModel.get())
         return "view"
     }
 
-
     @GetMapping("/{id}/edit")
-    fun getAddressEdit(@PathVariable id: Int, model: Model): String {
-        model.addAttribute("address", addressBookService.getAddress(id))
+    fun editAddress(@PathVariable id: Int?, model: Model): String {
+        val addressBookModel = addressBookService!!.findOne(id)
+        if (addressBookModel==null) {
+            return "not_found"
+        }
+        model.addAttribute("addressBook", addressBookModel.get())
         return "edit"
     }
 
-    @PostMapping("/{id}/edit")
-    fun postAddressEdit(@PathVariable id: Int, @ModelAttribute("address") addressPerson: AddressPerson): String {
-        addressBookService.updateAddress(id, addressPerson)
-        return "list"
+    @PostMapping(value = ["/{id}/edit"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    fun editAddress(addressBookModel: AddressBookModel, model: Model): String {
+        if (!addressBookService!!.isExist(addressBookModel.id)) {
+            return "not_found"
+        }
+        model.addAttribute("addressBook", addressBookService.editAddress(addressBookModel))
+        return "view"
     }
 
     @GetMapping("/{id}/delete")
-    fun removeAddress(@PathVariable id: Int): String {
-        addressBookService.removeAddress(id)
-        return "list"
+    fun deleteAddress(@PathVariable id: Int?): String {
+        if (!addressBookService!!.isExist(id)) {
+            return "not_found"
+        }
+        addressBookService.deleteAddress(id)
+        return "deleted"
+    }
+
+    @GetMapping("/add")
+    fun addAddress(): String {
+        return "add"
+    }
+
+    @PostMapping(value = ["/add"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    fun addAddress(addressBookModel: AddressBookModel?, model: Model): String {
+        model.addAttribute("addressBook", addressBookService!!.addNewEntry(addressBookModel))
+        return "view"
     }
 }
