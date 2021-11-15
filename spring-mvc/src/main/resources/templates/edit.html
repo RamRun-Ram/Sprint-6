@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Изменить данные</title>
 </head>
 <body>
+<a th:href="@{'/app/list'}">HOME</a>
 <form method="post">
-    </p>
-    <input name="name" placeholder="name"/>
+    <p> Ведите новые данные для записи </p>
+    <input name="name" placeholder="Type name here" th:value="${addressPerson.name}"/>
     <p>
     </p>
-    <input name="address" placeholder="address"/>
+    <input name="address" placeholder="Type address here" th:value="${addressPerson.address}"/>
     <p>
-    <p>
-        <input type="submit" value="edit" />
+        <button>Отправить</button>
     </p>
 </form>
 </body>

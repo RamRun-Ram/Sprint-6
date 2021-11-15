@@ -1,21 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="JS">
 <head>
     <meta charset="UTF-8">
-    <title>All AddressPerson</title>
+    <title>Список адресов</title>
 </head>
 <body>
-<table>
+<h1>Addresses</h1>
+<a th:href="@{'/app/add'}">ADD ADDRESS</a>
+<a th:href="@{'/logout'}">LOG OUT</a>
+<table border="1">
+    <thead>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Address</th>
+        <th th:text="ID"></th>
+        <th th:text="Name"></th>
+        <th th:text="Address"></th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
-    <tr th:each="addressPerson : ${addressPerson}">
-        <td th:text="${addressPerson.key}"></td>
-        <td th:text="${addressPerson.value.name}"></td>
-        <td th:text="${addressPerson.value.address}"></td>
+    </thead>
+    <tbody>
+    <tr th:each="addressBook: ${addresses}">
+        <td th:text="${addressBook.id}"></td>
+        <td th:text="${addressBook.name}"></td>
+        <td th:text="${addressBook.address}"></td>
+        <td>
+            <a th:href="@{'/app/' + ${addressBook.getId()} + '/view'}">VIEW</a>
+        </td>
+        <td>
+            <a th:href="@{'/app/' + ${addressBook.getId()} + '/edit'}">EDIT</a>
+        </td>
+        <td>
+            <a th:href="@{'/app/' + ${addressBook.getId()} + '/delete'}">DELETE</a>
+        </td>
     </tr>
+    </tbody>
 </table>
 </body>
 </html>

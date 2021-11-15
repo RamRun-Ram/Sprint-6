@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="JS">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Список адресов</title>
 </head>
 <body>
 
+<h1>Addresses</h1>
+<a th:href="@{'/app/list'}">HOME</a>
+<a th:href="@{'/app/add'}">ADD ADDRESS</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th th:text="ID"></th>
+        <th th:text="Name"></th>
+        <th th:text="Address"></th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${addressBook.id}"></td>
+        <td th:text="${addressBook.name}"></td>
+        <td th:text="${addressBook.address}"></td>
+        <td>
+            <a th:href="@{'/app/' + ${addressBook.getId()} + '/edit'}">EDIT</a>
+        </td>
+        <td>
+            <a th:href="@{'/app/' + ${addressBook.getId()} + '/delete'}">DELETE</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
